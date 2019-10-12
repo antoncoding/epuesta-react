@@ -2,7 +2,6 @@ import React from 'react'
 import Web3 from 'web3'
 import MyNavBar from './Components/Navbar'
 import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
 const web3 = new Web3(Web3.givenProvider)
 
 export default class App extends React.Component {
