@@ -1,13 +1,17 @@
 import React from 'react'
 import Web3 from 'web3'
 import MyNavBar from './Components/Navbar'
-import Button from 'react-bootstrap/Button'
+import MatchList from './Components/MatchList'
 const web3 = new Web3(Web3.givenProvider)
 
 export default class App extends React.Component {
   state = {
     account: '',
     network: 'ropsten',
+    matches: [
+      { home: 'RM', away: 'BCE' },
+      { home: 'AKA', away: 'BBC' }
+    ]
   }
 
   async loadMetaMask() {
@@ -22,12 +26,10 @@ export default class App extends React.Component {
   }
   render() {
     return (
-      <div style={{ margin: 10 }}>
-        <MyNavBar />
+      <div>
+        <MyNavBar account={this.state.account} />
         <div className='title' style={{ margin: 20 }}>
-          
-          <p>Your account: {this.state.account}</p>
-          <Button> Cool </Button>
+          <MatchList matches={this.state.matches} ></MatchList>
         </div>
       </div>
     )

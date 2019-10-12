@@ -5,13 +5,10 @@ import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 
 export default class MyNavBar extends Component {
-  state = {
-    account: '',
-  }
 
   render() {
     return (
-      <Navbar bg='light' expand='lg'>
+      <Navbar sticky="top" bg='light' expand='lg'>
         <Navbar.Brand href='#home'> Epuesta </Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
@@ -28,7 +25,7 @@ export default class MyNavBar extends Component {
         </Navbar.Collapse>
         <Navbar.Collapse className='justify-content-end'>
           <Navbar.Text>
-            Signed in as: { this.state.account }
+            Signed in as: {this.props.account}
           </Navbar.Text>
         </Navbar.Collapse>
       </Navbar>
