@@ -12,8 +12,8 @@ export default class App extends React.Component {
     account: '',
     network: 'ropsten',
     matches: [
-      { home: 'RM', away: 'BCE', time: 'Tomorrow', league: 'UEFA', verified: true },
-      { home: 'AKA', away: 'BBC', time: 'Next Week', league: 'UEFA', verified: false },
+      { address: "0x729f2e72cffdf4649cb54516cc688f8af31e5e7f", time: 'Tomorrow', league: 'UEFA'},
+      // { home: 'AKA', away: 'BBC', time: 'Next Week', league: 'UEFA', verified: false },
     ],
   }
 
@@ -21,6 +21,7 @@ export default class App extends React.Component {
     await window.ethereum.enable()
     const network = await web3.eth.net.getNetworkType()
     const accounts = await web3.eth.getAccounts()
+    // const contract = new web3.eth.Contract(abi, "0x729f2e72cffdf4649cb54516cc688f8af31e5e7f")
     this.setState({ account: accounts[0], network })
   }
 
@@ -34,7 +35,7 @@ export default class App extends React.Component {
         <Container>
           <Row className='justify-content-md-center'>
             <Col lg={true}>
-              <MatchList matches={this.state.matches}></MatchList>
+              <MatchList account={this.state.account} matches={this.state.matches}></MatchList>
             </Col>
           </Row>
         </Container>

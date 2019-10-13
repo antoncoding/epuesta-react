@@ -7,7 +7,7 @@ export default class MatchList extends React.Component {
     let matches
     if (this.props.matches) {
       matches = this.props.matches.map(match => {
-        return <Match match={match}></Match>
+        return <Match account={this.props.account} key={match.home + match.away} match={match}></Match>
       })
     }
     return (
