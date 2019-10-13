@@ -1,5 +1,6 @@
 import Match from './MatchCard'
 import React from 'react'
+import Container from 'react-bootstrap/Container'
 
 export default class MatchList extends React.Component {
   render() {
@@ -9,6 +10,11 @@ export default class MatchList extends React.Component {
         return <Match match={match}></Match>
       })
     }
-    return <div>{matches}</div>
+    return (
+      <Container>
+        <h2 style={{ margin: 20 }}>Available Matches</h2>
+        {matches}
+      </Container>
+    )
   }
 }
