@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
 import VerificationBadge from './VerifyModal'
+import BetButton from './BetModal'
 import Web3 from 'web3'
 import abi from '../abi'
 import Container from 'react-bootstrap/Container'
@@ -20,16 +21,21 @@ export default class Match extends Component {
   }
 
   async checkMatchStatus() {
-    const contract = new web3.eth.Contract(abi, this.props.match.address)
-    const homeVerified = await contract.methods.homeTeamVerified().call()
-    const awayVerified = await contract.methods.awayTeamVerified().call()
-    const home = await contract.methods.homeTeam().call()
-    const away = await contract.methods.awayTeam().call()
+    
+    const homeVerified = await this.state.contract.methods.homeTeamVerified().call()
+    const awayVerified = await this.state.contract.methods.awayTeamVerified().call()
+    const home = await this.state.contract.methods.homeTeam().call()
+    const away = await this.state.contract.methods.awayTeam().call()
     const verified = homeVerified && awayVerified
 
-    const token = await contract.methods.betToken().call();
+    const token = await this.state.contract.methods.betToken().call()
 
-    this.setState({ home, away, verified, homeVerified, awayVerified, contract, token })
+    this.setState({ home, away, verified, homeVerified, awayVerified, token })
+  }
+
+  componentWillMount(){
+    const contract = new web3.eth.Contract(abi, this.props.match.address)
+    this.setState({contract})
   }
 
   render() {
@@ -38,8 +44,8 @@ export default class Match extends Component {
       <Badge variant='success'> Verified </Badge>
     ) : (
       <VerificationBadge
-        home = {this.state.home}
-        away = {this.state.away}
+        home={this.state.home}
+        away={this.state.away}
         account={this.props.account}
         contract={this.state.contract}
         homeVerified={this.state.homeVerified}
@@ -68,11 +74,9 @@ export default class Match extends Component {
           </Card.Subtitle>
           <Card.Text>
             <Container>
-            {/* {this.props.match.time} */}
-            <Button variant='primary'>Go Bet</Button>
+              <BetButton contract={this.state.contract} account={this.props.account} />
             </Container>
           </Card.Text>
-          
         </Card.Body>
       </Card>
     )
