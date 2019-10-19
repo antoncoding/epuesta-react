@@ -12,8 +12,8 @@ export default class App extends React.Component {
     account: '',
     network: 'ropsten',
     matches: [
-      { address: "0x729f2e72cffdf4649cb54516cc688f8af31e5e7f", time: 'Tomorrow', league: 'UEFA'},
-      // { home: 'AKA', away: 'BBC', time: 'Next Week', league: 'UEFA', verified: false },
+      { address: "0x7faaa0e5a0bf07a0cc993de05bc224c6791cec79"},
+      { address: "0xce35e04641f5ce816507fe3f4c79076abdbf4c64"},
     ],
   }
 
@@ -21,7 +21,6 @@ export default class App extends React.Component {
     await window.ethereum.enable()
     const network = await web3.eth.net.getNetworkType()
     const accounts = await web3.eth.getAccounts()
-    // const contract = new web3.eth.Contract(abi, "0x729f2e72cffdf4649cb54516cc688f8af31e5e7f")
     this.setState({ account: accounts[0], network })
   }
 
