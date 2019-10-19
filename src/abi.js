@@ -201,6 +201,20 @@ export default [
 		"type": "function"
 	},
 	{
+		"constant": true,
+		"inputs": [],
+		"name": "betToken",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"constant": false,
 		"inputs": [
 			{
@@ -527,14 +541,6 @@ export default [
 			{
 				"name": "_awayTeam",
 				"type": "string"
-			},
-			{
-				"name": "_oracle",
-				"type": "address"
-			},
-			{
-				"name": "_betToken",
-				"type": "address"
 			}
 		],
 		"payable": false,
