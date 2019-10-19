@@ -38,6 +38,8 @@ export default class Match extends Component {
       <Badge variant='success'> Verified </Badge>
     ) : (
       <VerificationBadge
+        home = {this.state.home}
+        away = {this.state.away}
         account={this.props.account}
         contract={this.state.contract}
         homeVerified={this.state.homeVerified}
