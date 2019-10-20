@@ -82,7 +82,7 @@ export default class Match extends Component {
             </Container>
           </Card.Title>
           <Card.Subtitle className='mb-2 text-muted'>
-            <Container>
+            <Container style={{margin:20}} >
               <Row><Switch onChange={this.setAllowance} checked={this.state.enabled} /></Row>
               <Row>{this.props.match.address} {badges}</Row>
             </Container>

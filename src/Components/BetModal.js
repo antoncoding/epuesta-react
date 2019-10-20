@@ -48,9 +48,9 @@ export default class BetButton extends Component {
             <Container>
 
             <ProgressBar style={{margin:30}}>
-                <ProgressBar animated variant='info' now={this.homeRatio} key={1} />
-                <ProgressBar animated variant='warning' now={this.tieRatio} key={2} />
-                <ProgressBar animated variant='success' now={this.awayRatio} key={3} />
+                <ProgressBar animated variant='info' now={this.state.homeRatio} key={1} />
+                <ProgressBar animated variant='warning' now={this.state.tieRatio} key={2} />
+                <ProgressBar animated variant='success' now={this.state.awayRatio} key={3} />
               </ProgressBar>
 
               <Row style={{margin:20}}>
@@ -67,7 +67,7 @@ export default class BetButton extends Component {
 
               <Button
                 onClick={() => {
-                  this.props.contract.methods.bet(0, this.state.betAmount).send({ from: this.props.account })
+                  this.props.contract.methods.bet(1, this.state.betAmount).send({ from: this.props.account })
                 }}
               >
                 Place Bet
