@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
-// import Row from 'react-bootstrap/Row'
+import Row from 'react-bootstrap/Row'
 // import Col from 'react-bootstrap/Col'
 import ProgressBar from 'react-bootstrap/ProgressBar'
 
 export default class BetButton extends Component {
   state = {
+    betAmount: 0,
     show: false,
     homeRatio: 0,
     tieRatio: 100,
@@ -18,7 +19,7 @@ export default class BetButton extends Component {
     let totalPool = await this.props.contract.methods.totalPool().call()
     const homePool = await this.props.contract.methods.typePool(0).call()
     const awayPool = await this.props.contract.methods.typePool(1).call()
-    totalPool = totalPool === 0? 1 : totalPool;
+    totalPool = totalPool === 0 ? 1 : totalPool
     const homeRatio = (homePool / totalPool) * 100
     const awayRatio = (awayPool / totalPool) * 100
     const tieRatio = 100 - homeRatio - awayRatio
@@ -45,11 +46,32 @@ export default class BetButton extends Component {
           </Modal.Header>
           <Modal.Body>
             <Container>
-              <ProgressBar>
+
+            <ProgressBar style={{margin:30}}>
                 <ProgressBar animated variant='info' now={this.homeRatio} key={1} />
                 <ProgressBar animated variant='warning' now={this.tieRatio} key={2} />
-                <ProgressBar animated variant='info' now={this.awayRatio} key={3} />
+                <ProgressBar animated variant='success' now={this.awayRatio} key={3} />
               </ProgressBar>
+
+              <Row style={{margin:20}}>
+                Amount of Tokens
+                <input
+                  value={this.state.betAmount}
+                  onChange={event => {
+                    this.setState({ betAmount: event.target.value })
+                  }}
+                ></input>
+              </Row>
+
+              
+
+              <Button
+                onClick={() => {
+                  this.props.contract.methods.bet(0, this.state.betAmount).send({ from: this.props.account })
+                }}
+              >
+                Place Bet
+              </Button>
             </Container>
           </Modal.Body>
           <Modal.Footer>

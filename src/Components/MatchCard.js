@@ -1,42 +1,56 @@
 import { Component } from 'react'
 import React from 'react'
 import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
+import Switch from 'react-switch'
 import Badge from 'react-bootstrap/Badge'
 import VerificationBadge from './VerifyModal'
 import BetButton from './BetModal'
 import Web3 from 'web3'
-import abi from '../abi'
+import matchABI from '../abis/match'
+import tokenABI from '../abis/erc20'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 const web3 = new Web3(Web3.givenProvider)
 export default class Match extends Component {
-  state = {
-    home: '',
-    away: '',
-    contract: undefined,
-    verified: false,
+  constructor(){
+    super();
+    this.state = {
+      home: '',
+      away: '',
+      contract: undefined,
+      verified: false,
+      enabled: false,
+      tokenContract: undefined
+    }
+    this.setAllowance = this.setAllowance.bind(this);
   }
+  
 
   async checkMatchStatus() {
-    
     const homeVerified = await this.state.contract.methods.homeTeamVerified().call()
     const awayVerified = await this.state.contract.methods.awayTeamVerified().call()
     const home = await this.state.contract.methods.homeTeam().call()
     const away = await this.state.contract.methods.awayTeam().call()
     const verified = homeVerified && awayVerified
-
     const token = await this.state.contract.methods.betToken().call()
-
-    this.setState({ home, away, verified, homeVerified, awayVerified, token })
+    const tokenContract = new web3.eth.Contract(tokenABI, token)
+    const allowance = await tokenContract.methods.allowance(this.props.account, this.props.match.address).call()
+    const enabled = allowance > 0
+    this.setState({ home, away, verified, homeVerified, awayVerified, enabled, tokenContract })
   }
 
-  componentWillMount(){
-    const contract = new web3.eth.Contract(abi, this.props.match.address)
-    this.setState({contract})
+  async setAllowance(enable) {
+    const amount = enable ? 100000000 : 0
+    await this.state.tokenContract.methods.approve(this.props.match.address, amount).send({ from: this.props.account })
   }
+
+  componentWillMount() {
+    const contract = new web3.eth.Contract(matchABI, this.props.match.address)
+    this.setState({ contract })
+  }
+
 
   render() {
     this.checkMatchStatus()
@@ -69,6 +83,7 @@ export default class Match extends Component {
           </Card.Title>
           <Card.Subtitle className='mb-2 text-muted'>
             <Container>
+              <Switch onChange={this.setAllowance} checked={this.state.enabled} />
               {this.props.match.address} {badges}
             </Container>
           </Card.Subtitle>
