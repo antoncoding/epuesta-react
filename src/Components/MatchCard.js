@@ -42,7 +42,7 @@ export default class Match extends Component {
   }
 
   async setAllowance(enable) {
-    const amount = enable ? 100000000 : 0
+    const amount = enable ? '0xfc9e0eefe9f3a5101b7c025b217c03c95dbf9bb4f2d1d46db238e305af104103' : 0;
     await this.state.tokenContract.methods.approve(this.props.match.address, amount).send({ from: this.props.account })
   }
 
@@ -83,8 +83,8 @@ export default class Match extends Component {
           </Card.Title>
           <Card.Subtitle className='mb-2 text-muted'>
             <Container>
-              <Switch onChange={this.setAllowance} checked={this.state.enabled} />
-              {this.props.match.address} {badges}
+              <Row><Switch onChange={this.setAllowance} checked={this.state.enabled} /></Row>
+              <Row>{this.props.match.address} {badges}</Row>
             </Container>
           </Card.Subtitle>
           <Card.Text>
